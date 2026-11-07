@@ -1,38 +1,39 @@
 
-const communities = [
-  {
-    name: "Tomb of the Mask Community",
-    category: "Gaming",
-    description: "Explore, socialize and enjoy Tomb of the Mask.",
-    invite: ""
-  },
-  {
-    name: "Fluxerize",
-    category: "Social",
-    description: "A community for everyone.",
-    invite: ""
-  },
-  {
-    name: "Advertise Here",
-    category: "Social",
-    description: "Discover and promote communities.",
-    invite: ""
-  }
-];
-
 const list = document.getElementById("communityList");
 const search = document.getElementById("search");
+
+let communities = [];
+
+async function loadCommunities() {
+  list.textContent = "Loading communities...";
+
+  const { data, error } = await supabaseClient
+    .from("communities")
+    .select("id, name, category, description, invite_url")
+    .eq("status", "approved")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    list.textContent = "Unable to load communities.";
+    return;
+  }
+
+  communities = data || [];
+  displayCommunities(search.value);
+}
 
 function displayCommunities(query = "") {
   const filtered = communities.filter(c =>
     `${c.name} ${c.category} ${c.description}`
-      .toLowerCase().includes(query.toLowerCase())
+      .toLowerCase()
+      .includes(query.toLowerCase())
   );
 
-  list.innerHTML = "";
+  list.replaceChildren();
 
-  if (filtered.length === 0) {
-    list.innerHTML = "<p>No communities found.</p>";
+  if (!filtered.length) {
+    list.textContent = "No approved communities found yet.";
     return;
   }
 
@@ -49,13 +50,19 @@ function displayCommunities(query = "") {
     const description = document.createElement("p");
     description.textContent = c.description;
 
-    card.append(title, category, description);
+    const invite = document.createElement("a");
+    invite.textContent = "Join Community";
+    invite.href = c.invite_url;
+    invite.target = "_blank";
+    invite.rel = "noopener noreferrer";
+
+    card.append(title, category, description, invite);
     list.appendChild(card);
   });
 }
 
-search.addEventListener("input", e => {
-  displayCommunities(e.target.value);
+search.addEventListener("input", () => {
+  displayCommunities(search.value);
 });
 
-displayCommunities();
+loadCommunities();
