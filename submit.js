@@ -1,28 +1,34 @@
 
 const form = document.getElementById("communityForm");
 
-form.addEventListener("submit", function(event) {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
+
+  const submitButton = form.querySelector('button[type="submit"]');
+  submitButton.disabled = true;
 
   const submission = {
     name: document.getElementById("communityName").value.trim(),
     category: document.getElementById("communityCategory").value,
     description: document.getElementById("communityDescription").value.trim(),
-    invite: document.getElementById("communityInvite").value.trim()
+    invite_url: document.getElementById("communityInvite").value.trim(),
+    status: "pending"
   };
 
-  if (!submission.name || !submission.description || !submission.invite) {
-    alert("Please complete all fields.");
-    return;
+  try {
+    const { error } = await supabaseClient
+      .from("communities")
+      .insert([submission]);
+
+    if (error) throw error;
+
+    alert("Community submitted successfully! Awaiting approval.");
+    form.reset();
+
+  } catch (error) {
+    console.error(error);
+    alert("Submission failed. Please try again.");
+  } finally {
+    submitButton.disabled = false;
   }
-
-  const submissions = JSON.parse(
-    localStorage.getItem("communitySubmissions") || "[]"
-  );
-
-  submissions.push(submission);
-  localStorage.setItem("communitySubmissions", JSON.stringify(submissions));
-
-  alert("Community submission saved on this device!");
-  form.reset();
 });
