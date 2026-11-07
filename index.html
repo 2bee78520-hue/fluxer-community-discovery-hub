@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluxer Community Discovery Hub</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #10121b;
+      color: white;
+    }
+    header {
+      padding: 22px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #191c29;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .logo { font-size: 21px; font-weight: bold; color: #a98cff; }
+    nav a {
+      color: #ddd;
+      text-decoration: none;
+      margin-left: 15px;
+    }
+    .hero {
+      text-align: center;
+      padding: 75px 20px;
+      background: linear-gradient(135deg,#29205b,#171d38);
+    }
+    .hero h1 { font-size: clamp(30px,6vw,52px); }
+    .hero p { color: #c7c7d5; }
+    input {
+      padding: 16px;
+      width: min(90%,480px);
+      border: 1px solid #45445d;
+      border-radius: 10px;
+      background: #222438;
+      color: white;
+      margin-top: 20px;
+    }
+    main { padding: 35px 7%; }
+    .categories, .communities {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+      gap: 18px;
+    }
+    .card {
+      background: #1c2030;
+      border: 1px solid #303449;
+      border-radius: 14px;
+      padding: 22px;
+    }
+    .card p { color: #b8bbca; }
+    footer {
+      padding: 25px;
+      text-align: center;
+      color: #999;
+      background: #191c29;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Fluxer Discovery</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#discover">Discover</a>
+      <a href="#categories">Categories</a>
+      <a href="#submit">Submit</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Discover Your Community.</h1>
+    <p>Find amazing Fluxer communities and meet people who share your interests.</p>
+    <input id="search" type="search"
+      placeholder="Search communities...">
+  </section>
+
+  <main>
+    <h2 id="categories">Explore Categories</h2>
+    <div class="categories">
+      <div class="card">🎮 Gaming</div>
+      <div class="card">💬 Social</div>
+      <div class="card">💻 Technology</div>
+      <div class="card">📚 Education</div>
+      <div class="card">🎨 Creativity</div>
+      <div class="card">🎵 Music</div>
+    </div>
+
+    <h2 id="discover">Discover Communities</h2>
+    <div class="communities" id="communityList">
+      <div class="card">
+        <h3>Welcome to Fluxer Discovery!</h3>
+        <p>Community listings will appear here.</p>
+      </div>
+    </div>
+
+    <h2 id="submit">Submit Your Community</h2>
+    <div class="card">
+      <p>Want your Fluxer community featured? Community submissions are coming soon!</p>
+    </div>
+  </main>
+
+  <footer>
+    Fluxer Community Discovery Hub © 2026
+  </footer>
+</body>
+</html>
